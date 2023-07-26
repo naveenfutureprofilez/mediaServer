@@ -1,11 +1,8 @@
 const NodeMediaServer = require('node-media-server');
 const http = require('http');
-const socketIO = require('socket.io');
 const express = require('express');
 const app = express();
-// Create a HTTP server for Socket.IO
 const httpServer = http.createServer(app);
-const io = socketIO(httpServer);
 
 app.get('/', (req, res)=>{
   res.status(200).json({
@@ -81,8 +78,6 @@ nms.on('doneConnect', (id, args) => {
 nms.on('prePublish', (id, StreamPath, args) => {
   console.log('[NodeEvent on prePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
   // let session = nms.getSession(id);
-  // session.reject();
-  io.emit('connected', { streamPath: StreamPath, status: 'connected' });
 });
 
 nms.on('postPublish', (id, StreamPath, args) => {
@@ -105,21 +100,6 @@ nms.on('postPlay', (id, StreamPath, args) => {
 
 nms.on('donePlay', (id, StreamPath, args) => {
   console.log('[NodeEvent on donePlay]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
-});
-
-
-// Socket.IO connection event
-io.on('connection', (socket) => {
-  console.log('A client connected');
-
-  // Emit connectedClients count when a client connects
-  io.emit('connectedClients', io.engine.clientsCount);
-
-  // Handle client disconnections
-  socket.on('disconnect', () => {
-    console.log('A client disconnected');
-    io.emit('connectedClients', io.engine.clientsCount);
-  });
 });
 
 nms.run();
