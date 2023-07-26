@@ -1,0 +1,22 @@
+{
+  "name": "fplive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "run": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/node": "^2.15.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-media-server": "^2.6.2",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.1",
+    "uuid": "^9.0.0"
+  }
+}
