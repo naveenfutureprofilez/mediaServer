@@ -20,11 +20,6 @@ app.post('/add', (req, res)=>{
 });
 
 
-// Listen on the specified port for both Node Media Server and Socket.IO
-const PORT = 8080;
-httpServer.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
 
 
 // node server configuration
@@ -85,3 +80,8 @@ nms.on('donePlay', (id, StreamPath, args) => {
 });
 
 nms.run();
+// Listen on the specified port for both Node Media Server and Socket.IO
+const PORT = 8080;
+httpServer.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
