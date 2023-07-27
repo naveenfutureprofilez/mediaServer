@@ -1,26 +1,4 @@
 const NodeMediaServer = require('node-media-server');
-const http = require('http');
-const express = require('express');
-const app = express();
-const httpServer = http.createServer(app);
-
-app.get('/', (req, res)=>{
-  res.status(200).json({
-    status:200,
-    msg:"OKAY",
-  });
-});
-
-
-app.post('/add', (req, res)=>{
-  res.status(200).json({
-    status:200,
-    msg:"Added",
-  });
-});
-
-
-
 
 // node server configuration
 const config = {
@@ -80,8 +58,4 @@ nms.on('donePlay', (id, StreamPath, args) => {
 });
 
 nms.run();
-// Listen on the specified port for both Node Media Server and Socket.IO
-const PORT = 8080;
-httpServer.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+ 
