@@ -2,7 +2,7 @@ const NodeMediaServer = require('node-media-server');
 
 // node server configuration
 const config = {
-  logType: 0,
+  logType: 3,
   rtmp: {
     port: 1935,
     chunk_size: 60000,
