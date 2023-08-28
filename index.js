@@ -2,10 +2,10 @@ const NodeMediaServer = require('node-media-server');
 
 // node server configuration
 const config = {
-  logType: 3,
+  logType: 0,
   rtmp: {
     port: 1935,
-    chunk_size: 60000,
+    chunk_size: 4096,
     gop_cache: true,
     ping: 30,
     ping_timeout: 60
@@ -13,7 +13,12 @@ const config = {
   http: {
     port: 8080,
     allow_origin: '*'
-  } 
+  },
+  https: {
+    port: 8043,
+    key: "/etc/letsencrypt/live/live.tenniskhelo.com/privkey.pem",
+    cert: "/etc/letsencrypt/live/live.tenniskhelo.com/fullchain.pem"
+  }
    
 };
 
