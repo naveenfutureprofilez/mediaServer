@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const NodeMediaServer = require('node-media-server');
 
 // node server configuration
@@ -22,6 +23,26 @@ const config = {
    
 };
 
+const WEBHOOK_ENDPOINT = "";
+const WEBHOOK_API_KEY = ""
+const apiObj = axios.create({
+  baseURL : WEBHOOK_ENDPOINT,
+  headers:{
+    "Accept" : "application/json",
+    "Authorization" : `Bearer ${WEBHOOK_API_KEY}`
+  }
+});
+
+const handleEvent = async (stream, stream_event) => {
+  await apiObj.post(`/handle/${stream}`, {stream_event})
+  .then(resp => {
+    // console.log("webhook:", resp);
+  }).catch(_err => {
+    // console.log("web-error", _err?.data || _err);
+  })
+} 
+
+
 const nms = new NodeMediaServer(config);
 
 // nms.on('preConnect', (id, args) => {
@@ -43,12 +64,22 @@ const nms = new NodeMediaServer(config);
 
 // Successfull Started Streaming
 nms.on('postPublish', (id, StreamPath, args) => {
-  console.log('[NodeEvent on postPublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+  // console.log('[NodeEvent on postPublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+  const chunks = StreamPath.split("/");
+  // console.log("Node Live", `${chunks}`);
+  if(chunks[2] !== undefined && chunks[2] !== null){
+    handleEvent(chunks[2], "live");
+  }
 });
 
 // Streaming Stopped Manually
 nms.on('donePublish', (id, StreamPath, args) => {
-  console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+  // console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+  const chunks = StreamPath.split("/");
+  // console.log("Node Live", `${chunks}`);
+  if(chunks[2] !== undefined && chunks[2] !== null){
+    handleEvent(chunks[2], "offline");
+  }
 });
 
 // nms.on('prePlay', (id, StreamPath, args) => {
