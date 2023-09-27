@@ -42,3 +42,7 @@ next-env.d.ts
 
 # VSCode Settings
 /.vscode
+
+# DOT ENV
+.env
+/.env
