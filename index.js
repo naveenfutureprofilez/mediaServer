@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { default: axios } = require('axios');
 const NodeMediaServer = require('node-media-server');
 
@@ -15,30 +16,30 @@ const config = {
     port: 8080,
     allow_origin: '*'
   },
-  https: {
-    port: 8043,
-    key: "/etc/letsencrypt/live/live.tenniskhelo.com/privkey.pem",
-    cert: "/etc/letsencrypt/live/live.tenniskhelo.com/fullchain.pem"
-  }
+  // https: {
+  //   port: 8043,
+  //   key: "/etc/letsencrypt/live/live.tenniskhelo.com/privkey.pem",
+  //   cert: "/etc/letsencrypt/live/live.tenniskhelo.com/fullchain.pem"
+  // }
    
 };
 
-const WEBHOOK_ENDPOINT = "";
-const WEBHOOK_API_KEY = ""
+const WEBHOOK_ENDPOINT = process.env.WEBHOOK_ENDPOINT;
+const WEBHOOK_API_KEY = process.env.WEBHOOK_API_KEY;
 const apiObj = axios.create({
-  baseURL : WEBHOOK_ENDPOINT,
+  baseURL : process.env.WEBHOOK_ENDPOINT,
   headers:{
     "Accept" : "application/json",
-    "Authorization" : `Bearer ${WEBHOOK_API_KEY}`
+    "Authorization" : `Bearer ${process.env.WEBHOOK_API_KEY}`
   }
 });
 
 const handleEvent = async (stream, stream_event) => {
   await apiObj.post(`/handle/${stream}`, {stream_event})
   .then(resp => {
-    // console.log("webhook:", resp);
+    console.log("webhook:", resp);
   }).catch(_err => {
-    // console.log("web-error", _err?.data || _err);
+    console.log("web-error", _err?.data || _err);
   })
 } 
 
