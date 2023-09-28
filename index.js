@@ -16,6 +16,14 @@ const config = {
     port: 8080,
     allow_origin: '*'
   },
+  auth: {
+    api: parseInt(process.env.AUTH_API) === 1,
+    api_user: process.env.API_USER,
+    api_pass: process.env.API_PASS,
+    play: parseInt(process.env.AUTH_PLAY) === 1,
+    publish: parseInt(process.env.AUTH_PUBLISH) === 1,
+    secret: process.env.AUTH_SECRET
+  },
   // https: {
   //   port: 8043,
   //   key: "/etc/letsencrypt/live/live.tenniskhelo.com/privkey.pem",
@@ -24,8 +32,7 @@ const config = {
    
 };
 
-const WEBHOOK_ENDPOINT = process.env.WEBHOOK_ENDPOINT;
-const WEBHOOK_API_KEY = process.env.WEBHOOK_API_KEY;
+// console.log("config", config);
 const apiObj = axios.create({
   baseURL : process.env.WEBHOOK_ENDPOINT,
   headers:{
